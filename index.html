@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Backtracking</title>
+</head>
+
+    <h1>Backtracking    </h1>
+
+<p>Backtracking is a form of recursion</p>
+<br>
+
+<p> The useful senario  is that you are faced with number of options and you must chose one of these after make your choice new set of options you get depends on what choice you  made .</p>
+<p>conceptually  you start at thr root of a tree; the tree probabily some good leaves and some bad leaves, quite may be that the leaves all good are bad..</p>
+<p>suppose you get to a leaf . you  can backtrack to continue the search for a good leaf by revoking your most recent choice, and trying out the next option in that set in options </p>
+
+
+
+<p>This needs an example</p>
+
+
+<img src="./Backtrack photo.jpg"> </img>
+
+
+
+<ol start>
+    <li>Starting at Root, your options are A and B you choose A</li>
+    <li>At A, your options are C and D. you choose C</li>
+    <li>C is a bad.Go back to A</li>
+    <li>At A, you have alredy tried C,and it failed . try D</li>
+    <li>D is back go back to A</li>
+    <li>At A , you have no options left to try . Go back to Root </li>
+    <li>At Root, you have already tried A, try B</li>
+    <li>At B your options are E and F. try E</li>
+    <li>E is good congratulations!</li>
+    </ol>
+
+
+   <p>In this example we drew a picture of a tree. the tre  is an abstract model of the pissible sequences of chioces we could make. there is also a data structure callrd a tree, but usually we dont have a data structure tell us  what choice we have. </p>
+
+    <br><hr>
+
+<h4>The backtracking algorithm.</h4>
+
+<font size="3" color="green" align="center">
+<pre>
+
+    boolean solve(Node n) {
+
+        if n is a leaf node (
+        
+        if the leaf is a goal node, return true
+        
+        else return false
+        
+        }else{
+        
+        for each child c of n (
+        
+        if solve(c) succeeds, return true
+        
+        return false
+
+</pre>
+</font>
+
+
+    <hr>
+    <h4> How does this work?</h4>
+
+    <ul=circle>
+<li>If any child of n is solvable, then n is solvable.</li>
+<li> If no child of n is solvable , then n is not solvable.</li>
+
+</ul>
+
+<p>Hence, to dedicate whether any non-leaf node is solvable (part of a path to a gloal node),all your to do is test whether any child of n is solvable. this is not recursively , on each child of n in the above code, this is done by the lines .</p>
+<br>
+\
+
+<font size="3" color="green" align="center">
+<pre>
+    for each child c of n {
+        if solve(c) success, return true
+    }
+</pre>
+</font>
+
+
+<p> Eventually the recursionwill "button" out at a leaf node . if the leaf is a goal node, it is solvable , if the node  leaf is not a goal node, it is not solvable.This is our base case . this is done by the lines</p>
+
+<font size="3" color="green" align="center">
+<pre>
+    if n is aleaf node{
+        if the leaf is goal node, return true
+        else  return false
+    }
+</pre>
+</font>
+
+  <ul >
+  
+  <li >To search a tree:
+  <ol start><br>
+    <li>If the consists of a single leaf , test whether it is goal node. </li>
+    <li>Otherwise, search the subtrees untill you find one containing a goal node, or untill you have search them all unsuccessfully</li>
+
+</ol>
+</li>
+</ul>
+
+
+
+<br> 
+    <h3> Non-recursive backtracking, using a stack</h5>
+  
+
+
+
+<p> Back tracking is a rather typical recursive algorithm, and any recursive algorithm can be rewritten as a stack algorithm in fact hat is your recursion algorithms are transffered into machine language</p>
+ 
+
+<font size="3" color="green" align="center">
+<pre>
+    boolean solve(Node n) {
+
+        put node n on the stack;
+        
+        while the stack is not empty {
+        
+        if the node at the top of the stack is a leaf (
+        
+        if it is a goal node, return true
+        
+        else pop it off the stack
+        
+        else {
+        
+        if the node at the top of the stack has untried children push the next untried child onto the stack
+        
+        else pop the node off the stack
+        }
+        return false
+    }
+</pre>
+</font>
+
+
+<p> Starting from the root .the only nodes that can be pushed onto the stack are tha children of the node currently on the top of the stack, and these are only on one child ata a time . hence, the nodes on the stavck all times described a validd path in the tree. </p>
+
+<p> When the stack algorithm terminate successfully , the node on the stack form a path from the node to a goal node.</p>
+<p> similarly, when the eecursive algorithm finds a goal node, the path information is embiodied (in a reverse order) in the sequence of recuesive calls. thus as the recursion unwinds, the path can be recovered one node ata a time, by (for instance) printing the node at the current level, or the strong in an array</p>
+
+<p> Here is tha recursive backtracking algorithm, modified alightly to print(in reverse order ) the nodes along tr successfil path </p>
+
+<br><hr>
+
+<font size="4" color="green" align="center">
+<pre>
+    boolean solve(Node n) {
+
+        if n is a leaf node (
+        
+        if the leaf is a goal node (
+        
+
+        print n
+        
+        return true
+        
+        else return false
+        
+        } else {
+        
+     
+        for each child of n
+        
+        if solvelcl succeeds (
+        
+        print n
+        
+        return true
+        }
+    }
+        
+        return false
+}
+}
+
+</pre>
+</font>
+
+<h3>Keeping backtracking simple</h3>
+
+
+<p>All  of these backtracking algorithm are pretty simple, but when applied to a real problem, they can get preety cultured up with details. </p>
+
+<p>for example, if  path reprents a series of moves in a chess endgame problrm, the leaves are the checkmate and stalemate solutions</p>
+
+
+<p>to keep the program clean, therefore, tests like this should be burried in methods . in chess game, for example, you could test  whether a node is a leaf by writing a <font color="red",font size="3">gameOver method</font> (or you could even call it<font color="red"> isLeaf).</font>This method would encapsulate all the ugly details of funguring out whethar any posiible views remain </p>
+
+<p>Notice that the backtracking algorithms reduire us to keep track, for each node on path, which of its children have bean tried already (so we dont havr to try again them). In the above code we made this look simple , by just saying<font color="red"> for each child c of n.</font>In reallity, it may difficult to figure out what the possible children. How do youn find these children, and how do you keep track of which ones you are already expalined?</p>
+
+<p> For example , you might be able to number the children 1 though n,and try them in numerical order . then you have just tried <font color="red">child k,</font> you know that you have already tried child 1 through <font color=red>K-1,</font>and you have not yet .tried children <font clor="red">K+1</font> through  <font color=red>n.</font>Or,, if you are tring to color a map when just four colors, you can always try <font color="red">red first, then yellow, then green, then blue.</font> if child yellow falls, you know to try child green next. if you are searching a maze, you can try in the choices order left, straight,right <font color="red">(or perhaps north, east, south, west).</font>  </p>
+
+ <p>It isn't is an easy to find a simple way to order of a node. <font color="red">In the chess game example, </font> you might number your pieces (or perhaps the squares of the board) and try them in a numerical order, but in addition each piece may also jhave serval moves, and these must also be ordered.  </p>
+
+ <h3>Example: Tree search </h5>
+
+    <p>For staters, let's do the simplest possible example of backtracking, which is searching an actual tree. we will also use simplest kind of tree a binary tree.</p>
+   
+    <p> A binary tress is a data structure composed of nodes. One node its designed as the root node . Each node can reference (point to) zero, one or two other nodes, which are called its children.
+         </p>
+
+<p>Heres's a defination of the binary class.</p>
+
+<font size="3" color="green" align="center">
+<pre>
+    public class BinaryTree (
+
+        BinaryTree leftChild = null,
+        
+        Binary Tree nightChild: = null;
+        
+        boolean isGoatNode = false;
+        
+        String name:
+        
+        Binary Tree(String name. Binary Tree left, BinaryTree right, boolean isGoalNode) (
+        
+        this name = name,
+        
+        leftChild-left:
+        
+        rightChild right
+        
+        this isGos Node isGoalNode,
+</pre>
+</font>
+
+
+
+<p>Next we will create a TreeSearch class, and in it we will define a method makeTreel) which constructs the above binary tree</p>
+
+
+
+<font size="3" color="green" align="center">
+<pre>
+
+static Binary Tree makeTree() {
+
+BinaryTree root, a, b, c, d, e, f,
+
+c = new Binary Tree("C", null, null, false),
+
+d = new Binary Tree("D", null, null, false);
+
+e = new BinaryTree("E", null, null, true);
+
+f = new Binary Tree("F", null, null, false);
+
+a = new BinaryTree("A", c, d, false);
+
+b-new Binary Tree("B", e. 1. false).
+
+root = new Binary Tree("Root", a, b, false); 
+
+return root;
+  </pre>
+</font>
+
+
+<p>Here's a main program to create a binary tree and try to solve it.</p>
+  
+
+<font size="3" color="green" align="center">
+<pre>
+public static void main(String args[]) {
+
+Binary Tree tree = make Treel);
+
+system.out. printin(solvable(tree));
+}
+
+</pre>
+</font>
+
+
+<hr>
+<p>
+    And finnaly, here's the recursive backtracking routine to "solve" the binary tree by finding a doal node.
+</p>
+
+<hr>
+
+<font size="3" color="green" align="center">
+<pre>
+    static boolean solvable(BinaryTree node) (
+
+        <font size="3" color="aqua">/*1*/ </font>if (node == null) return false;
+        
+        <font size="3" color="aqua">/*2*/</font> if (node.isGoalNode) return true;
+        
+        <font size="3" color="aqua">/*3*/</font> if (solvable(node leftChild)) return true;
+        
+        <font size="3" color="aqua">/*4*/</font> if (solvable(node.rightChild)) return true.
+        
+        <font size="3" color="aqua">/5/</font> return false;
+</pre>
+</font>
+<hr>
+       
+   
+
+         <p> Here's what the numbered lines are doing </p>
+         
+    
+         <ol>
+            <li>If we are given a null node , its not solvable. This statement is so that we can call this method with the children of a node, whether those children actually exist</li>
+            <li>if the node we are given is a goal node, return success.</li>
+            <li>See if the left child of node is solvable , and conclude that nodes is solvable.say to.</li>
+
+            <li>Do the same thing for the right child.</li>
+            <li>Since neither child of node is solvable , node itelf is not solvable</li>
+
+         </ol>
+
+         <p>This program runs correctly and produces the unenlighteing result true.</p>
+         <p> Each time we ask for another node, we have to , if it is null. In the we put that check as the first thing in solvable</p>
+<br><hr>
+
+
+<font size="3" color="green" align="center">
+<pre>
+    static boolean solvable(BinaryTree node) {
+
+        if (node isGoalNode) return true;
+        
+        if (node.leftChild != null && solvable(node.leftChild)) return true;
+        
+        if (node.rightChild != null && solvable(node.rightChild)) return true;
+        
+        return false;
+        
+    </pre>
+</font>
+
+
+
+     <hr>   
+      <p>I think the first version is simpler, but the second version is slightly more efficient </p> 
+
+         <h4>What are the children?</h4>
+
+         <p>One of the things simplifies the above binary trees search is that , at each choice point, you can ognore all the previous chioces. previous chioces don't give any information about what you should do next; as far as you know,both the left and right child are possible solutions .</p>
+
+         <p>There are two ways to do this</p>
+
+         <ul>
+            <li>Method 1. Try each of the four possible colors, and recur.</li>
+            <li>Method 2. Try only these colors that have not already been used for an incident an adjacent country. you have successfully colored the map</li>
+
+         </ul>
+
+         <br>
+
+         <d1>
+            <dt>boolean mapsOk()</dt>
+            <dd>Used by method 1 to check (at a leaf node) whether the entire map is colored correctly.</dd>
+         </d1>
+     
+<br>
+<d1>
+    <dt>
+ boolean ok Tocolor(int row , int coloumn, int color)
+ </dt>
+ <dd>
+ Used by method 2 to check, at every node, whether there is an adjacent node really colored with given color.<br>
+</dd>
+ <br>
+
+
+ <d1>
+    <dt>
+        int[] nextRowAndColoumn(int row, int coloumn)
+    </dt>
+    <dd>
+        Used by both methods to find the next country lactually, the row and column of the next square on the checkerboard
+    </dd>
+ </d1
+<hr>
+
+
+<p>Here's the code for method 1</p>
+<hr>
+
+
+
+<font size="3" color="green" align="center">
+<pre>
+   
+boolean explore1(int row, int column, int color) {
+
+if (row>= NUM_ROWS)return maplsOK();
+
+map[row][column] = color;
+
+for (int nextColor = RED; nextColor = BLUE, nextColor++) {
+
+int[] next = nextRowAndColumn(row, column);
+
+if (explore1[next[0], next[1], nextColor)) return true;
+}
+return false;
+}
+
+</pre>
+</font>
+
+
+<hr>
+<p>Those appear preety similar, and you might think they are equally good. However, the timing information suggests otherwise </p>
+
+
+
+
+<table border="1px" align="center" cellpadding="10px">
+    <thead>
+
+    <th></th>
+    <th>2 by 3 map</th>
+    <th>3 by 3 </th>
+    <th>3 by 4 map</th>
+</thead>
+<tbody>
+    <tr>
+        <td>method 1:</td>
+        <td>60 ms</td>
+        <td>940ms</td>
+        <td>60530 ms(1minute)</td>
+    </tr>
+
+
+    <tr>
+
+     <td>Method 2:</td>
+     <td>0ms</td>
+     <td>0 ms</td>
+     <td>0 ms</td>
+
+
+    </tr>
+</tbody>
+</table>
+
+
+<br>
+<p>The zero in the above table indicates time too short to measure(less than 1milliseconds).why this huge difference? Either of these methods could have exponential growth. Eliminating a node automatically eliminates all of its descendents, and this will often prevent exponential growth.If there is any way to eliminate children (reduce the set of choices), do so!   </p>
+
+
+<hr>
+<h4>Debugging techniques</h4>
+<p>Often our first try at a program doesn't work, and we need to debug it . Debuggers are helpful, but sometimes we need to fall back on intersting print statements. but are espicially usefull when you are trying to debug recuesive routines.</p>
+
+<hr>
+<h5>Trick #1: Indent when you print method entires and exists.</h5>
+<p>Often, the best debugging techniques is to print every method call and return (or at least the most important ones). you probably want to print for each method, what parameters it came in with, and what value it leaves with. However, if you just print a long list of these.their corresponding entries indenting to show the level of nesting can help.</p>
+
+<hr>
+<h5>Trick #2: Use specialized print methods for debugging.</h5>
+<p>Don't clutter up your actual code more than you must. Also, remember the code interested for debugging purpose can itself contain bugs, or (in the wrost case) can efffect the result , so be very careful with it. </p>
+<p>Here's our debbuging code. for this trival program, there's almost debbuging code than actual code. but in laeger programs the proportions will be better.</p>
+
+
+<font size="3" color="green" align="center">
+<pre>
+    static String indent = "";
+
+static String name(BinaryTree node) {
+
+if (node == null) return null;
+
+else retum node.name;
+}
+
+static void enter (Binary Tree node) {
+
+System.out.println(indent. "Entering solvable("+ name(node)")");
+ indent-indent + ""
+
+}
+static boolean yestbinaryTree node) {
+
+indent = indent substring(3);
+
+
+System.out.println(indent + "solvable"("+ name(node) +") return true");
+return true;
+}
+
+static boolean  no(Binary Tree node){
+    indent = indent.substing(3);
+    System.out.println(indent + "solvable"("+ name(node) +") return false");
+    return false; 
+}
+</pre>
+</font>
+
+<hr>
+
+<p>To use these code, we modify solvable as follows:</p>
+ 
+
+<font size="3" color="green" align="center">
+<pre>
+    static boolean solvable (Binary Tree node) {
+
+        enter(node);
+        
+        if (node: == null) return no(node);
+        
+        if (node.isGoalNode) return yes(node);
+        
+        if (solvable(node.leftChild)) return yes(node);
+        
+        if (solvable(node.rightChild)) return yes(node);
+        
+        return no(node);
+</pre>
+</font>
+<hr>
+
+<p>And we get these results;</p>
+
+
+
+<font size="3" color="blue" align="center">
+<pre>
+Entering solvable(Root)
+
+ Entering solvable(A)
+
+  Entering solvable(C)
+
+  Entering solvable(null)
+
+  solvable(null).returns false
+
+  Entering solvableinum)
+
+  solvable(null) returns false
+
+  solvable (C) returns false
+
+  Entering solvabie(0)
+
+  Entering solvable(null)
+
+  solvable(num returns false
+
+  Entering solvable null)
+
+  solvable(null) returns false
+
+  solvable(D) returns fame
+
+  solapletal returns faisu
+
+  Entering solvatie
+
+  Entering solvable(E)
+
+  solvable(E) returns true
+
+ yate(B) returns true
+
+salvable(Root) retums true
+
+true
+</pre>
+</font>
+
+<h5>Trick #3:Never discard your debbuging statements.</h5>
+<p>writing debbuging statement id programming, too. often it's as much work to debug the debugging ststements as it is debug the actual program. Once your program is working, why throw this code away?</p>
+<p>Obviously, you don't want to print this debbugging information from a program you are ready to submit (or to return over to you manager).example you would to replace every return(node) with return (true), and very return (node) with return false. With all these changes, you might introduce new bugs into your program.</p>
+<p> The simple, solution is to make your debbuging statsments conditional.For example,</p>
+  <hr>
+ 
+  <font size="3" color="green" align="center">
+<pre>
+    static final boolean debugging = false;
+
+    static void enter (Binary Tree node) (
+    
+    if (debugging) {
+    
+    System.out.printin(indent + "Entering solvable" ( name[node) + )");
+    
+    indent = indent + " ";
+       }
+}
+
+
+static boolean yes(Binary Tree node) {
+    
+    if (debugging) {
+   
+        indent = indent.substring(3);
+
+        System.out.printin(indent + "solvable" ( name[node) + return true");
+    }
+    return true;
+}
+
+static boolean no(Binary Tree node) {
+    
+    if (debugging) {
+   
+        indent = indent.substring(3);
+
+        System.out.printin(indent + "solvable" ( name[node) + return false");
+    }
+    return false;
+}
+
+</pre>
+</font>
+<hr>
+
+
+<p>In industry, actual programs often have multiple flags to controll different aspects of debugging.Don't worry too much about making your code larger, modern compilers will notice that since the variable  debbuging is final, it can never be true, and the controlled code will be discarded. </p>
+
+
+<h4>Trick #4: create an exception. </h4>
+<p>If an Exceptions is thrown, you can get information about just where it happend if the message printStackTrace(printStream). since an exception is an object like any other, you can create and throw your own expections. However java programmers don't always realize that you can create an exception without throwing it. For example, the following  </p>
+
+
+
+    <p>  <font color="aqua">new expection("Checkpoint Charile"). printStackTrace(system.out);</font></p>
+
+
+<p> Will print out a message something like this, and the program will then continue normally. that the above code just acts like a print statement.</p>
+ 
+<hr>
+
+<font size="3" color="green" align="center">
+<pre>
+
+
+    java.lang.Exception: Checkpoint Charlie
+
+at TreeSearch.solvable(TreeSearch.java:53)
+
+at TreeSearch.solvable(TreeSearch.java:57)
+
+at TreeSearch.main(TreeSearch.java:72)
+
+at SHELL38.run(_SHELL38.java:16)
+
+at bluej.runtime.ExecServer.suspendExecution(Unknown Source)
+
+
+</pre>
+</font>
+
+<hr>
+<h4>Example: Cindy's puzzle</h4>
+ 
+  <p>i call the following puzzle "cindy's puzzle" for historical reasons. you can some numbers n of black marbles and the same number of white marbles, and you have a playing board which consists simply of a line of 2n+1 spaces to put the marbles in.start with the black marbles all at one end and (say, the left), the white marbles all at other end, and a free space in between</p>
+
+
+ 
+<table align="center" border="1px" cellpadding="10PX">
+<tbody>
+<tr>
+   <td>
+    <img src="black-ball.png">
+   </td>
+
+     <td>
+        <img src="white-ball.png"
+     </td>
+
+     <td>
+        <img src="black-ball.png"
+     </td>
+
+
+
+     <td>
+        <img src="white-ball.png"
+     </td>
+
+
+
+     <td>
+        <img src="black-ball.png"
+     </td>
+
+
+
+
+
+
+     <td>
+        <img src="white-ball.png"
+     </td>
+
+</tr>
+</tbody>
+</table>
+  
+
+<p>The backtracking method is namels solvable and return a booban in solvable we shall need to check whether we are all which in this case means a position from which no further moves are possible. This isn't so easy.
+
+    project submitte
+    
+  <p>  Now to the program. The main program will initialize the board, and call a recursive backtracking outine to attempt to solve the puzzle. The packtracking routine will either suppeed and print out a winning path or it will fail, and the main programa print out the pad w
+    
+    Reply</p>
+    
+   <p>The Backtracking method is named solvable and returns a boolean Insolvable we shall need to check wheth THED in this case means a position from which no further moves are possible This tent so easy
+    
+    sible move will result in a new board position, and these new board positions are the chin of the cent board
+
+
+
+<p>Hardbout HR THE TOUT Howe possible from an apack then that nable from stat space, because in the marble in that ha move it is unique There is sligh Cecilie Mill vary space commute, but at least the spaces fuire the malb stay in one place</p>
+
+      <p><font size="4"> Now we have a simpler ordering of moves to use in our program. Just check, in order, the 2n-1 spaces of the board. For each space, eithiel zero or one moves is possible. With this understanding we can write a boolean method canMove(int[] board, int position) which determines whether a move is possible from the given position:</font></p>
+    
+   
+<ul>
+    <li>If the position is empty, no move is possible,</li>
+    <li>If the positioncontains a black marble, the methods move up are jump to a right</li>
+    <li>If the positioncontains a white marble, the methods move up are jump to a left </li>
+</ul>
+
+    
+  <p>we write another method   int[] makeMove(int[] oldBoard, int position) that will take a board and a posipon, make a move from tion and that its values en We count white this som pore efficiently by changing the cia board he, but Here Witrale male concerned with simplicity in technical argon makete is "applicative" rather than "mutative."</p>
+
+   
+    
+   <p>Along with makeMove, we are ing mod puzzleSolved and printBoard with meaning that  should be obvious.</p>
+    
+    <hr>
+
+    <font size="3" color="green" align="center">
+  <pre>
+    
+    boolean solvabiletin board) {
+    
+        if (puzzlesolved(board)) {
+   
+        return true;
+        }
+
+        for (int position = 0; position  BOARD_SIZE; position++) {
+
+            if (canMove(board, position)) {
+            
+            int[] newBoard makeMove(board, position);
+            
+            if (solvable(newBoard)) (
+            
+            printBoard(new Board):
+            
+            return true;
+            }
+        }
+    }
+            return false;
+}
+</pre> 
+</font>
+<hr>
+
+<p>Here is some output from the program.</p>
+
+
+<pre class> <font color="red" size="4">
+<ol type="1" reversed>
+                <li style="color:blue;"><b style="color:black;">WHITE WHITE WHITE ______ BLACK BLACK BLACK</b></li>
+                <li style="color:blue;"><b style="color:black;">WHITE WHITE WHITE BLACK _____ BLACK BLACK</b></li>
+                <li style="color:blue;"><b style="color:black;">WHITE WHITE _____ BLACK WHITE BLACK BLACK</b></li>
+                <li style="color:blue;"><b style="color:black;">WHITE _____ WHITE BLACK WHITE BLACK BLACK</b></li>
+                <li style="color:blue;"><b style="color:black;">WHITE BLACK WHILE _____ WHITE BLACK BLACK</b></li>
+                <li style="color:blue;"><b style="color:black;">WHITE BLACK WHITE BLACK WHITE _____ BLACK</b></li>
+                <li style="color:blue;"><b style="color:black;">WHITE BLACK WHITE BLACK WHITE BLACK _____ </b></li>
+                <li style="color:blue;"><b style="color:black;">WHITE BLACK WHITE BLACK _____ BLACK WHITE</b></li>
+                <li style="color:blue;"><b style="color:black;">WHITE BLACK _____ BLACK WHITE BLACK WHITE</b></li>
+                <li style="color:blue;"><b style="color:black;">_____ BLACK WHITE BLACK WHITE BLACK WHITE</b></li>
+                <li style="color:blue;"><b style="color:black;">BLACK _____ WHITE BLACK WHITE BLACK WHITE</b></li>
+                <li style="color:blue;"><b style="color:black;">BLACK BLACK WHITE ______ WHITE BLACK WHITE</b></li>
+                <li style="color:blue;"><b style="color:black;">BLACK BLACK WHITE BLACK WHITE ______ WHITE</b></li>
+                <li style="color:blue;"><b style="color:black;">BLACK BLACK WHITE BLACK ______ WHITE WHITE</b></li>
+                <li style="color:blue;"><b style="color:black;">BLACK BLACK ______ BLACK WHITE WHITE WHITE</b></li>
+                <li style="color:blue;"><b style="color:black;">BLACK BLACK BLACK ______ WHITE WHITE WHITE</b></li>
+            </ol>
+            <br>
+</font>
+</pre>
+
+
+
+
+<p>Notice that the solution is given in reverse order: BLACK starts out on the left and WHITE on the right, as in the last ine. I've added line numbers to the actual output in order to emphasize this point: Backtracking always produces its results sequence of choices) in reverse order; it is up to you, the programmer, to reverse the results again to get them in the correct order.</p>
+
+
